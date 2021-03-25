@@ -12,15 +12,29 @@ use Faker\Factory;
 use Liior\Faker\Prices;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+/**
+ * Class AppFixtures
+ * @package App\DataFixtures
+ */
 class AppFixtures extends Fixture
 {
+    /**
+     * @var SluggerInterface
+     */
     protected SluggerInterface $slugger;
 
+    /**
+     * AppFixtures constructor.
+     * @param SluggerInterface $slugger
+     */
     public function __construct(SluggerInterface $slugger)
     {
         $this->slugger = $slugger;
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');

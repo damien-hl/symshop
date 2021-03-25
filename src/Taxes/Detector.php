@@ -2,10 +2,21 @@
 
 namespace App\Taxes;
 
+/**
+ * Class Detector
+ * @package App\Taxes
+ */
 class Detector
 {
-    protected $threshold;
+    /**
+     * @var float
+     */
+    protected float $threshold;
 
+    /**
+     * Detector constructor.
+     * @param float $threshold
+     */
     public function __construct(float $threshold)
     {
         $this->threshold = $threshold;
