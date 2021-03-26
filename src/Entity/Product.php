@@ -15,7 +15,7 @@ class Product
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -25,7 +25,7 @@ class Product
     /**
      * @ORM\Column(type="integer")
      */
-    private int $price;
+    private ?int $price = null;
 
     /**
      * @ORM\Column(type="string", length=255)

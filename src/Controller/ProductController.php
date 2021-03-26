@@ -71,8 +71,6 @@ class ProductController extends AbstractController
     public function create(Request $request, SluggerInterface $slugger, EntityManagerInterface $em): Response
     {
         $product = new Product();
-//        $builder = $formFactory->createBuilder(ProductType::class);
-//        $form = $builder->getForm();
         $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);

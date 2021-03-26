@@ -6,12 +6,16 @@
     <h1>Nos produits phares</h1>
     <div class="row">
         {% for p in products %}
-            <div class="col mb-3">
+            <div class="col-md-6 col-lg mb-3">
                 <div class="card">
                     <img src="{{ p.mainPicture }}" class="img-fluid" alt="Image du produit"/>
                     <div class="card-body">
                         <h4 class="card-title">{{ p.name }} ({{ p.price / 100 }} &euro;)</h4>
-                        <span class="badge badge-info mb-3">{{ p.category.name }}</span>
+                        <a href="{{ path('product_category', {
+                            'slug': p.category.slug
+                        }) }}">
+                            <span class="badge badge-info mb-3">{{ p.category.name }}</span>
+                        </a>
                         <p class="card-text">{{ p.shortDescription }}</p>
                         <a href="{{ path('product_show', {
                             'category_slug': p.category.slug,

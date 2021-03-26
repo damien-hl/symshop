@@ -24,15 +24,16 @@ class ProductType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom du produit',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Tapez le nom du produit']
+                'attr' => ['placeholder' => 'Tapez le nom du produit']
             ])
             ->add('shortDescription', TextareaType::class, [
                 'label' => 'Description courte',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Tapez une description assez courte mais parlante pour le visiteur']
+                'attr' => ['placeholder' => 'Tapez une description assez courte mais parlante pour le visiteur']
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix du produit',
-                'attr' => ['class' => 'form-control', 'placeholder' => 'Tapez le prix du produit en euros']
+                'divisor' => 100,
+                'attr' => ['placeholder' => 'Tapez le prix du produit en euros']
             ])
             ->add('mainPicture', UrlType::class, [
                 'label' => 'Photo du produit',
@@ -40,13 +41,46 @@ class ProductType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'label' => 'Catégories',
-                'attr' => ['class' => 'form-control'],
                 'placeholder' => 'Choisir une catégorie',
                 'class' => Category::class,
-                'choice_label' => function(Category $category) {
+                'choice_label' => function (Category $category) {
                     return strtoupper($category->getName());
                 },
             ]);
+
+//        $builder->get('price')->addModelTransformer(new CentimesTransformer());
+
+//        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+//            /** @var Product $product */
+//            $product = $event->getData();
+//
+//            if ($product->getPrice() !== null) {
+//                $product->setPrice($product->getPrice() * 100);
+//            }
+//        });
+
+//        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+//            /** @var Product $product */
+//            $product = $event->getData();
+//
+//            if ($product->getPrice() !== null) {
+//                $product->setPrice($product->getPrice() / 100);
+//            }
+
+//            if ($product->getId() === null) {
+//                $form = $event->getForm();
+//
+//                $form->add('category', EntityType::class, [
+//                    'label' => 'Catégories',
+//                    'attr' => ['class' => 'form-control'],
+//                    'placeholder' => 'Choisir une catégorie',
+//                    'class' => Category::class,
+//                    'choice_label' => function (Category $category) {
+//                        return strtoupper($category->getName());
+//                    },
+//                ]);
+//            }
+//        });
     }
 
     /**

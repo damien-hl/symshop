@@ -10,11 +10,15 @@
     </ol>
     <h1>{{ product.name }} ({{ product.price / 100 }} &euro;)</h1>
     <div class="row">
-        <div class="col-4">
+        <div class="col-md-4">
             <img src="{{ product.mainPicture }}" alt="Image de {{ product.name }}" class="img-fluid">
         </div>
-        <div class="col">
-            <span class="badge badge-primary mb-3">{{ product.category.name }}</span>
+        <div class="col-md">
+            <a href="{{ path('product_category', {
+                'slug': product.category.slug
+            }) }}">
+                <span class="badge badge-info mb-3">{{ product.category.name }}</span>
+            </a>
             <p>{{ product.shortDescription }}</p>
             <a href="#" class="btn btn-success btn-lg">
                 <i class="fas fa-shopping-cart mr-3"></i>
