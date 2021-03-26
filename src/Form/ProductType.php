@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProductType extends AbstractType
 {
@@ -24,20 +26,20 @@ class ProductType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom du produit',
-                'attr' => ['placeholder' => 'Tapez le nom du produit']
+                'attr' => ['placeholder' => 'Tapez le nom du produit'],
             ])
             ->add('shortDescription', TextareaType::class, [
                 'label' => 'Description courte',
-                'attr' => ['placeholder' => 'Tapez une description assez courte mais parlante pour le visiteur']
+                'attr' => ['placeholder' => 'Tapez une description assez courte mais parlante pour le visiteur'],
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix du produit',
                 'divisor' => 100,
-                'attr' => ['placeholder' => 'Tapez le prix du produit en euros']
+                'attr' => ['placeholder' => 'Tapez le prix du produit en euros'],
             ])
             ->add('mainPicture', UrlType::class, [
                 'label' => 'Photo du produit',
-                'attr' => ['placeholder' => 'Tapez une URL d\'image']
+                'attr' => ['placeholder' => 'Tapez une URL d\'image'],
             ])
             ->add('category', EntityType::class, [
                 'label' => 'Catégories',

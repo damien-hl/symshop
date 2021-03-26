@@ -11,8 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class ProductController
@@ -75,7 +75,7 @@ class ProductController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $product->setSlug(strtolower($slugger->slug($product->getName())));
 
             $em->persist($product);
@@ -101,31 +101,21 @@ class ProductController extends AbstractController
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
-     * @param UrlGeneratorInterface $urlGenerator
+     * @param ValidatorInterface $validator
      * @return Response
      */
-    public function edit(int $id, ProductRepository $productRepository, Request $request, SluggerInterface $slugger, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator): Response
+    public function edit(int $id, ProductRepository $productRepository, Request $request, SluggerInterface $slugger, EntityManagerInterface $em, ValidatorInterface $validator): Response
     {
         $product = $productRepository->find($id);
 
         $form = $this->createForm(ProductType::class, $product);
 
-//        $form->setData($product);
-
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $product->setSlug(strtolower($slugger->slug($product->getName())));
 
             $em->flush();
-
-//            $url = $urlGenerator->generate('product_show', [
-//                'category_slug' => $product->getCategory()->getSlug(),
-//                'slug' => $product->getSlug()
-//            ]);
-
-//            $response->headers->set('Location', $url);
-//            $response->setStatusCode(302);
 
             return $this->redirectToRoute('product_show', [
                 'category_slug' => $product->getCategory()->getSlug(),

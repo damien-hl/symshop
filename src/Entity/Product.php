@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -19,11 +21,14 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le nom du produit est obligatoire")
+     * @Assert\Length(min=3, max=255, minMessage="Le nom du produit doit faire plus de 3 caractères")
      */
-    private string $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Le prix du produit est obligatoire")
      */
     private ?int $price = null;
 
@@ -39,13 +44,17 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="La photo du produit est obligatoire")
+     * @Assert\Url(message="La photo doit être une URL valide")
      */
-    private string $mainPicture;
+    private ?string $mainPicture;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="La description courte du produit est obligatoire")
+     * @Assert\Length(min=20, max=255, minMessage="La description courte doit faire au moins 20 caractères")
      */
-    private string $shortDescription;
+    private ?string $shortDescription;
 
     /**
      * @return int|null
@@ -63,6 +72,17 @@ class Product
         return strtoupper($this->name);
     }
 
+//    public static function loadValidatorMetaData(ClassMetadata $metadata)
+//    {
+//        $metadata->addPropertyConstraints('name', [
+//            new Assert\NotBlank(['message' => "Le nom du produit est obligatoire"]),
+//            new Assert\Length(['min' => 3, 'max' => 255, 'minMessage' => "Le nom du produit doit faire plus de 3 caractères"])
+//        ]);
+//        $metadata->addPropertyConstraints('price', [
+//            new Assert\NotBlank(['message' => "Le prix du produit est obligatoire"])
+//        ]);
+//    }
+
     /**
      * @return string|null
      */
@@ -72,10 +92,10 @@ class Product
     }
 
     /**
-     * @param string $name
+     * @param ?string $name
      * @return $this
      */
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -91,10 +111,10 @@ class Product
     }
 
     /**
-     * @param int $price
+     * @param ?int $price
      * @return $this
      */
-    public function setPrice(int $price): self
+    public function setPrice(?int $price): self
     {
         $this->price = $price;
 
@@ -148,10 +168,10 @@ class Product
     }
 
     /**
-     * @param string $mainPicture
+     * @param ?string $mainPicture
      * @return $this
      */
-    public function setMainPicture(string $mainPicture): self
+    public function setMainPicture(?string $mainPicture): self
     {
         $this->mainPicture = $mainPicture;
 
@@ -167,10 +187,10 @@ class Product
     }
 
     /**
-     * @param string $shortDescription
+     * @param ?string $shortDescription
      * @return $this
      */
-    public function setShortDescription(string $shortDescription): self
+    public function setShortDescription(?string $shortDescription): self
     {
         $this->shortDescription = $shortDescription;
 
