@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class ProductController
@@ -101,10 +100,9 @@ class ProductController extends AbstractController
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
-     * @param ValidatorInterface $validator
      * @return Response
      */
-    public function edit(int $id, ProductRepository $productRepository, Request $request, SluggerInterface $slugger, EntityManagerInterface $em, ValidatorInterface $validator): Response
+    public function edit(int $id, ProductRepository $productRepository, Request $request, SluggerInterface $slugger, EntityManagerInterface $em): Response
     {
         $product = $productRepository->find($id);
 
