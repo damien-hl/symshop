@@ -4,12 +4,14 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\User;
 use Bezhanov\Faker\Provider\Commerce;
 use Bluemmb\Faker\PicsumPhotosProvider;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Liior\Faker\Prices;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
@@ -24,12 +26,19 @@ class AppFixtures extends Fixture
     protected SluggerInterface $slugger;
 
     /**
+     * @var UserPasswordEncoderInterface
+     */
+    protected UserPasswordEncoderInterface $encoder;
+
+    /**
      * AppFixtures constructor.
      * @param SluggerInterface $slugger
+     * @param UserPasswordEncoderInterface $encoder
      */
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(SluggerInterface $slugger, UserPasswordEncoderInterface $encoder)
     {
         $this->slugger = $slugger;
+        $this->encoder = $encoder;
     }
 
     /**
@@ -41,6 +50,29 @@ class AppFixtures extends Fixture
         $faker->addProvider(new Prices($faker));
         $faker->addProvider(new Commerce($faker));
         $faker->addProvider(new PicsumPhotosProvider($faker));
+
+        $admin = new User();
+
+        $hash = $this->encoder->encodePassword($admin, "password");
+
+        $admin->setEmail("admin@gmail.com")
+            ->setFullName("Admin")
+            ->setPassword($hash)
+            ->setRoles(['ROLE_ADMIN']);
+
+        $manager->persist($admin);
+
+        for ($u = 0; $u < 5; $u++) {
+            $user = new User();
+
+            $hash = $this->encoder->encodePassword($user, "password");
+
+            $user->setEmail("user$u@gmail.com")
+                ->setFullName($faker->name())
+                ->setPassword($hash);
+
+            $manager->persist($user);
+        }
 
         for ($c = 0; $c < 3; $c++) {
             $categoryName = $faker->department();

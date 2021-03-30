@@ -37,15 +37,18 @@
 {#            </li>#}
         </ul>
         <ul class="navbar-nav align-items-center">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Inscription</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="btn btn-success btn-sm">Connexion</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="btn btn-danger btn-sm">Déconnexion</a>
-            </li>
+            {% if app.user %}
+                <li class="nav-item">
+                    <a href="{{ path('security_logout') }}" class="btn btn-danger btn-sm">Déconnexion</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Inscription</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('security_login') }}" class="btn btn-success btn-sm">Connexion</a>
+                </li>
+            {% endif %}
         </ul>
 {#        <form class="form-inline my-2 my-lg-0">#}
 {#            <input class="form-control mr-sm-2" type="text" placeholder="Search">#}
