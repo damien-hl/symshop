@@ -109,7 +109,7 @@ class CartService
     }
 
     /**
-     * @return array
+     * @return CartItem[]
      */
     public function getDetailedCartItem(): array
     {
@@ -126,5 +126,13 @@ class CartService
         }
 
         return $detailedCart;
+    }
+
+    /**
+     * @return void
+     */
+    public function empty(): void
+    {
+        $this->setCart([]);
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -55,6 +57,16 @@ class Product
      * @Assert\Length(min=20, max=255, minMessage="La description courte doit faire au moins 20 caractères")
      */
     private ?string $shortDescription;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PurchaseItem::class, mappedBy="product")
+     */
+    private $purchaseItems;
+
+    public function __construct()
+    {
+        $this->purchaseItems = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -193,6 +205,36 @@ class Product
     public function setShortDescription(?string $shortDescription): self
     {
         $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PurchaseItem[]
+     */
+    public function getPurchaseItems(): Collection
+    {
+        return $this->purchaseItems;
+    }
+
+    public function addPurchaseItem(PurchaseItem $purchaseItem): self
+    {
+        if (!$this->purchaseItems->contains($purchaseItem)) {
+            $this->purchaseItems[] = $purchaseItem;
+            $purchaseItem->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseItem(PurchaseItem $purchaseItem): self
+    {
+        if ($this->purchaseItems->removeElement($purchaseItem)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseItem->getProduct() === $this) {
+                $purchaseItem->setProduct(null);
+            }
+        }
 
         return $this;
     }
