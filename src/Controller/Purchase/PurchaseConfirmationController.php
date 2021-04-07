@@ -4,10 +4,8 @@ namespace App\Controller\Purchase;
 
 use App\Cart\CartService;
 use App\Entity\Purchase;
-use App\Entity\PurchaseItem;
-use App\Entity\User;
 use App\Form\CartConfirmationType;
-use DateTime;
+use App\Purchase\PurchasePersister;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,14 +27,21 @@ class PurchaseConfirmationController extends AbstractController
     protected EntityManagerInterface $em;
 
     /**
+     * @var PurchasePersister
+     */
+    protected PurchasePersister $persister;
+
+    /**
      * PurchaseConfirmationController constructor.
      * @param CartService $cartService
      * @param EntityManagerInterface $em
+     * @param PurchasePersister $persister
      */
-    public function __construct(CartService $cartService, EntityManagerInterface $em)
+    public function __construct(CartService $cartService, EntityManagerInterface $em, PurchasePersister $persister)
     {
         $this->cartService = $cartService;
         $this->em = $em;
+        $this->persister = $persister;
     }
 
     /**
@@ -60,9 +65,8 @@ class PurchaseConfirmationController extends AbstractController
             return $this->redirectToRoute('cart_show');
         }
 
-        /** @var User $user */
 //        $user = $this->security->getUser();
-        $user = $this->getUser();
+//        $user = $this->getUser();
 
 //        if (!$user) {
 //            throw new AccessDeniedException("Vous devez être connecté pour confirmer une commande");
@@ -81,32 +85,18 @@ class PurchaseConfirmationController extends AbstractController
         /** @var Purchase $purchase */
         $purchase = $form->getData();
 
-        $purchase->setUser($user)
-            ->setPurchasedAt(new DateTime())
-            ->setTotal($this->cartService->getTotal());
+        $this->persister->storePurchase($purchase);
 
-        $this->em->persist($purchase);
-
-        foreach ($this->cartService->getDetailedCartItem() as $cartItem) {
-            $purchaseItem = new PurchaseItem();
-            $purchaseItem->setPurchase($purchase)
-                ->setProduct($cartItem->product)
-                ->setProductName($cartItem->product->getName())
-                ->setQuantity($cartItem->qty)
-                ->setTotal($cartItem->getTotal())
-                ->setProductPrice($cartItem->product->getPrice());
-
-            $this->em->persist($purchaseItem);
-        }
-
-        $this->em->flush();
-
-        $this->cartService->empty();
+//        $this->cartService->empty();
 
 //        $flashBag->add('success', "La commande a bien été enregistrée");
-        $this->addFlash("success", "La commande a bien été enregistrée");
+//        $this->addFlash("success", "La commande a bien été enregistrée");
 
 //        return new RedirectResponse($this->router->generate('purchase_index'));
-        return $this->redirectToRoute('purchase_index');
+//        return $this->redirectToRoute('purchase_index');
+
+        return $this->redirectToRoute("purchase_payment_form", [
+            'id' => $purchase->getId()
+        ]);
     }
 }
