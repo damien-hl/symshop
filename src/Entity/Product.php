@@ -37,7 +37,7 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $slug;
+    private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
@@ -133,19 +133,12 @@ class Product
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSlug(): ?string
+    public function getSlug()
     {
         return $this->slug;
     }
 
-    /**
-     * @param string $slug
-     * @return $this
-     */
-    public function setSlug(string $slug): self
+    public function setSlug($slug): self
     {
         $this->slug = $slug;
 

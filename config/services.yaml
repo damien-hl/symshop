@@ -43,11 +43,31 @@ services:
       $secretKey: '%env(STRIPE_SECRET_KEY)%'
       $publicKey: '%env(STRIPE_PUBLIC_KEY)%'
 
-#  App\EventDispatcher\PrenomListener:
-#    tags: [
-#      { name: kernel.event_listener, event: kernel.request, method: addPrenomToAttributes },
-#      { name: kernel.event_listener, event: kernel.controller, method: test1 },
-#      { name: kernel.event_listener, event: kernel.response, method: test2 }
-#    ]
+  App\Doctrine\Listener\ProductSlugListener:
+    tags:
+      [
+        {
+          name: 'doctrine.orm.entity_listener',
+          event: 'prePersist',
+          entity: 'App\Entity\Product'
+        }
+      ]
+
+  App\Doctrine\Listener\CategorySlugListener:
+    tags:
+      [
+        {
+          name: 'doctrine.orm.entity_listener',
+          event: 'prePersist',
+          entity: 'App\Entity\Category'
+        }
+      ]
+
+  #  App\EventDispatcher\PrenomListener:
+  #    tags: [
+  #      { name: kernel.event_listener, event: kernel.request, method: addPrenomToAttributes },
+  #      { name: kernel.event_listener, event: kernel.controller, method: test1 },
+  #      { name: kernel.event_listener, event: kernel.response, method: test2 }
+  #    ]
 
   Cocur\Slugify\Slugify: ~

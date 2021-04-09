@@ -30,7 +30,7 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $slug;
+    private $slug;
 
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="category")
@@ -76,20 +76,12 @@ class Category
 
         return $this;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getSlug(): ?string
+    public function getSlug()
     {
         return $this->slug;
     }
 
-    /**
-     * @param string $slug
-     * @return $this
-     */
-    public function setSlug(string $slug): self
+    public function setSlug($slug): self
     {
         $this->slug = $slug;
 

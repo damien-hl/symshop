@@ -6,6 +6,10 @@ use App\Event\PurchaseSuccessEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class PurchaseSuccessEmailSubscriber
+ * @package App\EventDispatcher
+ */
 class PurchaseSuccessEmailSubscriber implements EventSubscriberInterface
 {
     /**
@@ -23,7 +27,7 @@ class PurchaseSuccessEmailSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @return string[]
+     * @inheritDoc
      */
     public static function getSubscribedEvents(): array
     {
