@@ -1,4 +1,4 @@
-# Symfony e-commerce
+# Symshop
 > Projet issu du cours [Symfony 5 : Le guide complet](https://learn.web-develop.me/) par [Lior Chamla](https://github.com/liorchamla)
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
