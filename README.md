@@ -1,4 +1,4 @@
-# Site e-commerce
+# Symfony e-commerce
 > Projet issu du cours [Symfony 5 : Le guide complet](https://learn.web-develop.me/) par [Lior Chamla](https://github.com/liorchamla)
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
@@ -23,4 +23,4 @@ Réalisation d'un site e-commerce dans le cadre de la formation Symfony 5 de Lio
 - [Bootswatch](https://bootswatch.com/)
 
 ## Meta
-Damien Heulin – [Twitter](https://twitter.com/damien_hl
+Damien Heulin – [Twitter](https://twitter.com/damien_hl)
